@@ -16,7 +16,7 @@ export default function SceneCanvas({ activeSection, projects, onFaceClick }) {
     <Canvas
       shadows
       camera={{ position: [0, 1.5, 7], fov: 50 }}
-      className="w-full h-full"
+      className="w-full h-full relative z-0"
     >
       <Suspense fallback={null}>
         <Lights />

@@ -3,20 +3,27 @@ import { useState } from "react";
 import SceneCanvas from "@/app/components/three/SceneCanvas";
 import NavbarButtons from "@/app/components/ui/NavbarButtons";
 import AboutSection from "@/app/components/sections/About";
-import ContactSection from "@/app/components/sections/Contact"; 
+import ContactSection from "@/app/components/sections/Contact";
+import SkillsSection from "@/app/components/sections/Skills"; // ✅ Import your Skills section
 
 export default function HomePage() {
   const [activeSection, setActiveSection] = useState(null);
   const [modalImage, setModalImage] = useState(null);
   const [showAbout, setShowAbout] = useState(false);
+  const [showSkills, setShowSkills] = useState(false); // ✅ State for Skills
 
   const handleButtonClick = (section) => {
     setActiveSection(section);
 
     if (section === "about") {
-      setShowAbout(true); // trigger About section animation
+      setShowAbout(true);
+      setShowSkills(false);
+    } else if (section === "skills") {
+      setShowSkills(true);
+      setShowAbout(false);
     } else {
       setShowAbout(false);
+      setShowSkills(false);
     }
   };
 
@@ -53,10 +60,14 @@ export default function HomePage() {
     },
   ];
 
-   return (
+  return (
     <div className="w-screen h-screen relative">
       {/* 3D Canvas */}
-      <SceneCanvas activeSection={activeSection} projects={projects} onFaceClick={setModalImage} />
+      <SceneCanvas
+        activeSection={activeSection}
+        projects={projects}
+        onFaceClick={setModalImage}
+      />
 
       {/* Modal for project images */}
       {modalImage && (
@@ -81,6 +92,13 @@ export default function HomePage() {
       {showAbout && (
         <div className="absolute top-32 left-1/2 transform -translate-x-1/2 max-w-xl z-20">
           <AboutSection show={showAbout} />
+        </div>
+      )}
+
+      {/* Skills section */}
+      {showSkills && (
+        <div className="absolute top-32 left-1/2 transform -translate-x-1/2 max-w-2xl z-20">
+          <SkillsSection />
         </div>
       )}
 

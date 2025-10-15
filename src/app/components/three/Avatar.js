@@ -12,6 +12,7 @@ export default function Avatar({ activeSection }) {
   const pointingGLB = useGLTF("/models/ImageToStl.com_Pointing.glb");
   const sittingGLB = useGLTF("/models/ImageToStl.com_Sitting+Idle.glb");
   const talkingGLB = useGLTF("/models/ImageToStl.com_Talking.glb");
+  const DanceGLB = useGLTF("/models/Dance.glb")
 
   // Animations
   const idleActions = useAnimations(idleGLB.animations, group);
@@ -20,6 +21,7 @@ export default function Avatar({ activeSection }) {
   const pointingActions = useAnimations(pointingGLB.animations, group);
   const sittingActions = useAnimations(sittingGLB.animations, group);
   const talkingActions = useAnimations(talkingGLB.animations, group);
+  const danceActions = useAnimations(DanceGLB.animations,group);
 
   const [currentGLB, setCurrentGLB] = useState("idle");
   const [currentAnim, setCurrentAnim] = useState("idle");
@@ -50,7 +52,7 @@ export default function Avatar({ activeSection }) {
       const timer = setTimeout(() => {
         setCurrentGLB("wave");
         setCurrentAnim(waveName);
-      }, 3000);
+      }, 1000);
 
       const backTimer = setTimeout(() => {
         setCurrentGLB("idle");
@@ -81,6 +83,10 @@ export default function Avatar({ activeSection }) {
     } else if (activeSection === "contact") {
       targetGLB = "sitting";
       targetAnim = Object.keys(sittingActions.actions)[0];
+      targetX = 0;
+    } else if (activeSection === "skills"){
+      targetGLB = "dance";
+      targetAnim = Object.keys(danceActions.actions)[0];
       targetX = 0;
     }
 
@@ -138,6 +144,9 @@ export default function Avatar({ activeSection }) {
       case "talking":
         actions = talkingActions.actions;
         break;
+      case "dance":
+        actions = danceActions.actions;
+        break;
       default:
         actions = idleActions.actions;
     }
@@ -161,6 +170,8 @@ export default function Avatar({ activeSection }) {
         return sittingGLB.scene;
       case "talking":
         return talkingGLB.scene;
+      case "dance":
+        return DanceGLB.scene;
       default:
         return idleGLB.scene;
     }
